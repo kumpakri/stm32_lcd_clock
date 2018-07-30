@@ -37,9 +37,7 @@ Following instructions sets LCD display mode not supported by this library :
 					0x20 for 4-bit bus mode, two lines, 5x8 dots format font
 					0x28 for 4-bit bus mode, four lines, 5x8 dots format font
 					0x34 for 8-bit bus mode, two lines, 5x11 dots format font
-					0x3C for 8-bit bus mode, four lines, 5x11 dots format font
 					0x24 for 4-bit bus mode, two lines, 5x11 dots format font
-					0x2C for 4-bit bus mode, four lines, 5x11 dots format font
 					0x30 for 2 line display, lines 0 and 2, DDRAM address starts 0x00 ends 0x4F
 */
 
@@ -53,5 +51,7 @@ void lcd_set_position(uint8_t line, uint8_t pos);
 void lcd_write_string(char* data, int len);
 
 void lcd_write_data(int data);
+
+void lcd_save_custom_char(int addr, int data[8]);
 
 #endif /* __LCD_LIB_H */

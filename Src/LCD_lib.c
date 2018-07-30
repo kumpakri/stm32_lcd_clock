@@ -52,6 +52,17 @@ void lcd_set_position(uint8_t line, uint8_t pos)
 	}
 }
 
+void lcd_set_CGRAM_addr(int addr)
+{
+	
+	/* if out of bounds do nothing */
+	if( addr < 8 )
+	{
+		lcd_send_cmd( CMD_SET_CGRAM_ADDR | addr );
+		
+	}
+}
+
 void lcd_write_string(char* data, int len)
 {
 	for( int i=0; i<len; i++ )
@@ -77,6 +88,37 @@ void lcd_write_string(char* data, int len)
 }
 
 void lcd_write_data(int data)
-{}
+{
+		HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
+		HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 1);
+		
+		HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, (data & 0x80) >> 7 );
+		HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, (data & 0x40) >> 6 );
+		HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, (data & 0x20) >> 5 );
+		HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, (data & 0x10) >> 4 );
+		HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, (data & 0x08) >> 3 );
+		HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, (data & 0x04) >> 2 );
+		HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, (data & 0x02) >> 1 );
+		HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, (data & 0x01) );
+		
+		HAL_Delay(4);
+		
+		HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
+		
+		HAL_Delay(4);
+}
+
+void lcd_save_custom_char(int addr, int data[8])
+{
+	
+	for( int line = 0; line<8; line++ )
+	{
+		// set CGRAM address
+		lcd_set_CGRAM_addr( (addr << 3) | line );
+		// write data
+		lcd_write_data(data[line]);
+	}
+		
+}
 
 

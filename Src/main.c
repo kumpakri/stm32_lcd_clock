@@ -37,7 +37,35 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	//hello_world_demo();
-	four_line_demo();
+	//four_line_demo();
+	
+	lcd_send_cmd(CMD_DISPLAY_ON);
+	lcd_send_cmd(CMD_SET_FOUR_LINES);
+	lcd_send_cmd(CMD_SET_CURSOR_RIGHT);
+	
+	/*
+	* Custom Character
+	* 1 1 1 1 1 
+	* 1 1 1 1 1
+	* 1 1 1 1 1
+	* 1 1 1 1 1
+	* 0 0 0 0 0
+	* 0 0 0 0 0
+	* 0 0 0 0 0 
+	* 0 0 0 0 0 
+	*
+	* ~ data = {0x1F,0x1F,0x1F,0x1F,0x00,0x00,0x00,0x00}
+	*/
+	int custom_char[8] = {0x1F,0x1F,0x1F,0x1F,0x00,0x00,0x00,0x00};
+	lcd_save_custom_char(0, custom_char);
+	
+	lcd_set_position(0,0);
+	lcd_write_data(0);
+	
+	HAL_Delay(5000);
+	
+	lcd_send_cmd(CMD_CLEAR_DISPLAY);
+	lcd_send_cmd(CMD_DISPLAY_OFF);
 	
 	
   while (1)
