@@ -12,6 +12,6 @@
 
 void hello_world_demo(void);
 
-
+void four_line_demo(void);
 
 #endif /* __LCD_DEMO_H */

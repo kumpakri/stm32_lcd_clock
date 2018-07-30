@@ -15,213 +15,66 @@ void hello_world_demo(void)
 {
 	/* Put string to LCD */
 	// data 00001111 0x0F display on
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-	HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 0);
-	
-	HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 1);
-	
-	HAL_Delay(20);
-	
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-	
-	HAL_Delay(500);
+	lcd_send_cmd(CMD_CURSOR_BLINK);
 	
 	// data 001110 fcn set
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-	HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 0);
-	
-	HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 0);
-	
-	HAL_Delay(20);
-	
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-	
-	HAL_Delay(500);
+	lcd_send_cmd(CMD_SET_CURSOR_RIGHT);
 	
 	// data 000000010 return home
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-	HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 0);
-	
-	HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 0);
-	
-	HAL_Delay(20);
-	
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-	
-	HAL_Delay(200);
+	lcd_send_cmd(CMD_RETURN_HOME);
 	
 	// data 00101010 write *
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-	HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 1);
-	
-	HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 0);
-	
-	HAL_Delay(20);
-	
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-	
-	HAL_Delay(200);
+	lcd_write_string("*",1);
 
-
-	int i = 0;
-	while( i < 3 )
+	for( int i=0; i < 3; i++ )
 	{
 		// data 00010100 0x14 shift cursor right
-		HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-		HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 0);
-		
-		HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 1);
-		HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 1);
-		HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 0);
-		
-		HAL_Delay(20);
-		
-		HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-		
-		HAL_Delay(100);
-		
-		i = i+1;
+		lcd_send_cmd(CMD_MV_CURSOR_RIGHT);
 	}
 	
 	
 	// Write string
+	lcd_write_string("Hello World!", 12);
+
 	
-	char str[12] = "Hello World!";
-	int i_str = 0;
-	while( i_str < 12 )
-	{
-		
-			HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-			HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 1);
-			
-			HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, (str[i_str] & 0x80) >> 7 );
-			HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, (str[i_str] & 0x40) >> 6 );
-			HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, (str[i_str] & 0x20) >> 5 );
-			HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, (str[i_str] & 0x10) >> 4 );
-			HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, (str[i_str] & 0x08) >> 3 );
-			HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, (str[i_str] & 0x04) >> 2 );
-			HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, (str[i_str] & 0x02) >> 1 );
-			HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, (str[i_str] & 0x01) );
-			
-			HAL_Delay(20);
-			
-			HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-			
-			HAL_Delay(200);
-		
-		i_str += 1;
-	}
-	
-	i = 0;
-	while( i < 3 )
+	for( int i = 0; i < 3 ; i++ )
 	{
 		// data 00010100 0x14 shift cursor right
-		HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-		HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 0);
-		
-		HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 1);
-		HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 1);
-		HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 0);
-		HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 0);
-		
-		HAL_Delay(20);
-		
-		HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-		
-		HAL_Delay(100);
-		
-		i = i+1;
+		lcd_send_cmd(CMD_MV_CURSOR_RIGHT);
 	}
 	
 	// data 00101010 write *
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-	HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 1);
-	
-	HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 0);
-	
-	HAL_Delay(20);
-	
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
+	lcd_write_string("*",1);
 	
 	HAL_Delay(5000);
 	
 	// data 00000001 clear display
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-	HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 0);
-	
-	HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 1);
-	
-	HAL_Delay(20);
-	
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-	
-	HAL_Delay(20);
+	lcd_send_cmd(CMD_CLEAR_DISPLAY);
 	
 	// data 00001111 0x0F display off
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-	HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 0);
+	lcd_send_cmd(CMD_DISPLAY_OFF);
+}
+
+void four_line_demo(void)
+{
+	lcd_send_cmd(CMD_CURSOR_BLINK);
+	lcd_send_cmd(CMD_SET_CURSOR_RIGHT);
 	
-	HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, 1);
-	HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, 0);
-	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, 0);
+	lcd_send_cmd(CMD_SET_FOUR_LINES);
 	
-	HAL_Delay(20);
+	lcd_set_position(0,0);
+	lcd_write_string("Hello World!", 12);
 	
-	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
+	lcd_set_position(1,1);
+	lcd_write_string("Hello World!", 12);
+	
+	lcd_set_position(2,2);
+	lcd_write_string("Hello World!", 12);
+	
+	lcd_set_position(3,3);
+	lcd_write_string("Hello World!", 12);
+
+	HAL_Delay(5000);
+	lcd_send_cmd(CMD_CLEAR_DISPLAY);
+	lcd_send_cmd(CMD_DISPLAY_OFF);
 }

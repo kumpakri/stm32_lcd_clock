@@ -36,40 +36,9 @@ int main(void)
   GPIO_Init();
   /* USER CODE BEGIN 2 */
 	
-	/* Put string to LCD */
 	//hello_world_demo();
+	four_line_demo();
 	
-	lcd_send_cmd(CMD_CURSOR_BLINK);
-	lcd_send_cmd(CMD_SET_DISP_LEFT);
-	
-	char str[12] = "Hello World!";
-	int i_str = 0;
-	while( i_str < 12 )
-	{
-		
-			HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 1);
-			HAL_GPIO_WritePin(LCD_RS_GPIO_Port, LCD_RS_Pin, 1);
-			
-			HAL_GPIO_WritePin(LCD_D7_GPIO_Port, LCD_D7_Pin, (str[i_str] & 0x80) >> 7 );
-			HAL_GPIO_WritePin(LCD_D6_GPIO_Port, LCD_D6_Pin, (str[i_str] & 0x40) >> 6 );
-			HAL_GPIO_WritePin(LCD_D5_GPIO_Port, LCD_D5_Pin, (str[i_str] & 0x20) >> 5 );
-			HAL_GPIO_WritePin(LCD_D4_GPIO_Port, LCD_D4_Pin, (str[i_str] & 0x10) >> 4 );
-			HAL_GPIO_WritePin(LCD_D3_GPIO_Port, LCD_D3_Pin, (str[i_str] & 0x08) >> 3 );
-			HAL_GPIO_WritePin(LCD_D2_GPIO_Port, LCD_D2_Pin, (str[i_str] & 0x04) >> 2 );
-			HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, (str[i_str] & 0x02) >> 1 );
-			HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, (str[i_str] & 0x01) );
-			
-			HAL_Delay(20);
-			
-			HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
-			
-			HAL_Delay(200);
-		
-		i_str += 1;
-	}
-	
-	
-	lcd_send_cmd(CMD_DISPLAY_OFF);
 	
   while (1)
   {

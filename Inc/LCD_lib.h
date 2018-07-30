@@ -27,10 +27,9 @@
 #define CMD_MV_CURSOR_RIGHT		0x14
 #define CMD_MV_DISP_LEFT			0x18
 #define CMD_MV_DISP_RIGHT			0x1C
-#define CMD_SET_TWO_LINES			0x30	// lines 0 and 2
 #define CMD_SET_FOUR_LINES		0x38  // lines 0, 1, 2 and 3
-
-#define CMD_SET_DDRAM					0x80 	// D6-D0 are data
+#define CMD_SET_CGRAM_ADDR		0x40  // D5-D0 are data
+#define CMD_SET_DDRAM_ADDR		0x80 	// D6-D0 are data
 
 /*
 NOTICE !
@@ -41,6 +40,7 @@ Following instructions sets LCD display mode not supported by this library :
 					0x3C for 8-bit bus mode, four lines, 5x11 dots format font
 					0x24 for 4-bit bus mode, two lines, 5x11 dots format font
 					0x2C for 4-bit bus mode, four lines, 5x11 dots format font
+					0x30 for 2 line display, lines 0 and 2, DDRAM address starts 0x00 ends 0x4F
 */
 
 
@@ -49,5 +49,9 @@ Following instructions sets LCD display mode not supported by this library :
 void lcd_send_cmd(int cmd);
 
 void lcd_set_position(uint8_t line, uint8_t pos);
+
+void lcd_write_string(char* data, int len);
+
+void lcd_write_data(int data);
 
 #endif /* __LCD_LIB_H */
