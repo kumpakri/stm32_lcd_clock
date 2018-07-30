@@ -10,6 +10,8 @@
 #ifndef __LCD_LIB_H
 #define __LCD_LIB_H
 
+#include "stm32f4xx_hal.h"
+
 /* LCD instructions */
 #define CMD_CLEAR_DISPLAY 		0x01
 #define CMD_RETURN_HOME				0x02
@@ -21,9 +23,31 @@
 #define CMD_SET_CURSOR_RIGHT 	0x06	// cursor moves right when moved
 #define CMD_SET_DISP_RIGHT  	0x05	// whole display moves left when cursor moved
 #define CMD_SET_DISP_LEFT 		0x07	// whole display moves right when cursor moved
+#define CMD_MV_CURSOR_LEFT		0x10
+#define CMD_MV_CURSOR_RIGHT		0x14
+#define CMD_MV_DISP_LEFT			0x18
+#define CMD_MV_DISP_RIGHT			0x1C
+#define CMD_SET_TWO_LINES			0x30	// lines 0 and 2
+#define CMD_SET_FOUR_LINES		0x38  // lines 0, 1, 2 and 3
+
+#define CMD_SET_DDRAM					0x80 	// D6-D0 are data
+
+/*
+NOTICE !
+Following instructions sets LCD display mode not supported by this library :
+					0x20 for 4-bit bus mode, two lines, 5x8 dots format font
+					0x28 for 4-bit bus mode, four lines, 5x8 dots format font
+					0x34 for 8-bit bus mode, two lines, 5x11 dots format font
+					0x3C for 8-bit bus mode, four lines, 5x11 dots format font
+					0x24 for 4-bit bus mode, two lines, 5x11 dots format font
+					0x2C for 4-bit bus mode, four lines, 5x11 dots format font
+*/
+
 
 /* Functions */
 
 void lcd_send_cmd(int cmd);
+
+void lcd_set_position(uint8_t line, uint8_t pos);
 
 #endif /* __LCD_LIB_H */
