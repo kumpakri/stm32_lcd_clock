@@ -34,14 +34,17 @@ int main(void)
 
   /* Initialize all configured peripherals */
   GPIO_Init();
+	
+	/* Initialize LCD display */
+	lcd_init();
+	lcd_send_cmd(CMD_CURSOR_BLINK);
+	
   /* USER CODE BEGIN 2 */
 	
 	//hello_world_demo();
 	//four_line_demo();
 	
-	lcd_send_cmd(CMD_DISPLAY_ON);
-	lcd_send_cmd(CMD_SET_FOUR_LINES);
-	lcd_send_cmd(CMD_SET_CURSOR_RIGHT);
+	
 	
 	/*
 	* Custom Character
@@ -56,11 +59,32 @@ int main(void)
 	*
 	* ~ data = {0x1F,0x1F,0x1F,0x1F,0x00,0x00,0x00,0x00}
 	*/
-	int custom_char[8] = {0x1F,0x1F,0x1F,0x1F,0x00,0x00,0x00,0x00};
-	lcd_save_custom_char(0, custom_char);
+	//int custom_char[8] = {0x1F,0x1F,0x1F,0x1F,0x00,0x00,0x00,0x00};
+	//lcd_save_custom_char(0, custom_char);
 	
-	lcd_set_position(0,0);
-	lcd_write_data(0);
+	
+	lcd_load_wooduino_font();
+	
+	//lcd_write_woodoino_char(1, 2, 5);
+	
+	//lcd_set_position(1,5);
+	//lcd_write_data(0x00);
+	//lcd_write_data(0x01);
+	//lcd_write_data(0x20);
+	//lcd_set_position(2,5);
+	//lcd_write_data(0x03);
+	//lcd_write_data(0xFF);
+	//lcd_write_data(0x03);
+	
+	lcd_write_woodoino_char(1,2,5);
+	lcd_write_woodoino_char(0,2,8);
+	lcd_set_position(1,11);
+	lcd_write_data(0x2E);
+	lcd_set_position(2,11);
+	lcd_write_data(0x2E);
+	lcd_write_woodoino_char(5,2,12);
+	lcd_write_woodoino_char(8,2,15);
+
 	
 	HAL_Delay(5000);
 	

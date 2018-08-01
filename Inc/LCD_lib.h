@@ -41,17 +41,22 @@ Following instructions sets LCD display mode not supported by this library :
 					0x30 for 2 line display, lines 0 and 2, DDRAM address starts 0x00 ends 0x4F
 */
 
-
 /* Functions */
+
+void lcd_init(void);
 
 void lcd_send_cmd(int cmd);
 
 void lcd_set_position(uint8_t line, uint8_t pos);
 
-void lcd_write_string(char* data, int len);
+void lcd_write_string(char* str, int len);
 
 void lcd_write_data(int data);
 
 void lcd_save_custom_char(int addr, int data[8]);
+
+void lcd_load_wooduino_font(void);
+
+void lcd_write_woodoino_char(int ch, int line, int pos);
 
 #endif /* __LCD_LIB_H */
