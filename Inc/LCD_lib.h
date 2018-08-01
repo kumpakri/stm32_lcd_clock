@@ -59,4 +59,6 @@ void lcd_load_wooduino_font(void);
 
 void lcd_write_woodoino_char(int ch, int line, int pos);
 
+void lcd_write_3line_char(int ch, int line, int pos);
+
 #endif /* __LCD_LIB_H */

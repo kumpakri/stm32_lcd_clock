@@ -66,27 +66,52 @@ int main(void)
 	lcd_load_wooduino_font();
 	
 	//lcd_write_woodoino_char(1, 2, 5);
+/*	
+	lcd_write_woodoino_char(0,1,0);
+	lcd_write_woodoino_char(1,1,4);
+	lcd_write_woodoino_char(2,1,8);
+	lcd_write_woodoino_char(3,1,12);
+	lcd_write_woodoino_char(4,1,16);
+	lcd_write_woodoino_char(5,3,0);
+	lcd_write_woodoino_char(6,3,4);
+	lcd_write_woodoino_char(7,3,8);
+	lcd_write_woodoino_char(8,3,12);
+	lcd_write_woodoino_char(9,3,16);    
+*//*	
+	lcd_write_3line_char(0, 3, 0);
+	lcd_write_3line_char(1, 3, 4);
+	lcd_write_3line_char(2, 3, 8);
+	lcd_write_3line_char(3, 3, 12);
+	lcd_write_3line_char(4, 3, 16);
+	HAL_Delay(10000);
+	lcd_write_3line_char(5, 3, 0);
+	lcd_write_3line_char(6, 3, 4);
+	lcd_write_3line_char(7, 3, 8);
+	lcd_write_3line_char(8, 3, 12);
+	lcd_write_3line_char(9, 3, 16);
+*/
+lcd_write_3line_char(1, 3, 1);
+lcd_write_3line_char(0, 3, 5);
+lcd_set_position(1,9);
+lcd_write_data(0x03);
+lcd_set_position(2,9);
+lcd_write_data(0x06);
+lcd_set_position(3,9);
+lcd_write_data(0x00);
+lcd_write_3line_char(5, 3, 11);
+lcd_write_3line_char(8, 3, 15);
 	
-	//lcd_set_position(1,5);
-	//lcd_write_data(0x00);
-	//lcd_write_data(0x01);
-	//lcd_write_data(0x20);
-	//lcd_set_position(2,5);
-	//lcd_write_data(0x03);
-	//lcd_write_data(0xFF);
-	//lcd_write_data(0x03);
-	
-	lcd_write_woodoino_char(1,2,5);
+/*	lcd_write_woodoino_char(1,2,5);
 	lcd_write_woodoino_char(0,2,8);
 	lcd_set_position(1,11);
 	lcd_write_data(0x2E);
 	lcd_set_position(2,11);
 	lcd_write_data(0x2E);
 	lcd_write_woodoino_char(5,2,12);
-	lcd_write_woodoino_char(8,2,15);
+	lcd_write_woodoino_char(8,2,15);  */
 
 	
-	HAL_Delay(5000);
+	HAL_Delay(10000);
 	
 	lcd_send_cmd(CMD_CLEAR_DISPLAY);
 	lcd_send_cmd(CMD_DISPLAY_OFF);

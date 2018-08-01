@@ -58,11 +58,11 @@ void lcd_send_cmd(int cmd)
 	HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, (cmd & 0x02) >> 1 );
 	HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, (cmd & 0x01) );
 	
-	HAL_Delay(4);
+	HAL_Delay(2);
 		
 	HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
 	
-	HAL_Delay(4);
+	HAL_Delay(2);
 		
 }
 	
@@ -141,11 +141,11 @@ void lcd_write_data(int data)
 		HAL_GPIO_WritePin(LCD_D1_GPIO_Port, LCD_D1_Pin, (data & 0x02) >> 1 );
 		HAL_GPIO_WritePin(LCD_D0_GPIO_Port, LCD_D0_Pin, (data & 0x01) );
 		
-		HAL_Delay(4);
+		HAL_Delay(2);
 		
 		HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, 0);
 		
-		HAL_Delay(4);
+		HAL_Delay(2);
 }
 
 /**
@@ -218,13 +218,14 @@ void lcd_write_woodoino_char(int ch, int line, int pos)
 	if(wooduino_font_loaded)
 	{
 		int char_width = 3;
+		int char_length = 2;
 		
 		char wooduino_chars[10][6] = { 
       { 0x07, 0x00, 0x01, 0x02, 0x03, 0x04},  // 0
       { 0x00, 0x01, 0x20, 0x03, 0xFF, 0x03 }, // 1
       { 0x05, 0x05, 0x01, 0xFF, 0x06, 0x06 }, // 2
       { 0x00, 0x05, 0x01, 0x03, 0x06, 0x04 }, // 3
-      { 0x02, 0x04, 0xFF, 0x20, 0x20, 0xFF }, // 4
+      { 0x02, 0x03, 0xFF, 0x20, 0x20, 0xFF }, // 4
       { 0xFF, 0x05, 0x05, 0x06, 0x06, 0x04 }, // 5
       { 0x07, 0x05, 0x05, 0x02, 0x06, 0x04 }, // 6
       { 0x00, 0x00, 0x01, 0x20, 0x07, 0x20 }, // 7
@@ -232,9 +233,9 @@ void lcd_write_woodoino_char(int ch, int line, int pos)
       { 0x07, 0x05, 0x01, 0x06, 0x06, 0x04 }, // 9
 		};
 		
-		if( line>0 && line<4 && pos<20 )
+		if( line>char_length-2 && line<4 && pos<21-char_width )
 		{
-			for(int rows=0; rows<2; rows++)
+			for(int rows=0; rows<char_length; rows++)
 			{
 				for(int cols=0;cols<char_width;cols++)
 				{
@@ -247,6 +248,44 @@ void lcd_write_woodoino_char(int ch, int line, int pos)
 			}
 		}
 		lcd_set_position(line-2,pos+char_width);
+	}
+}
+
+void lcd_write_3line_char(int ch, int line, int pos)
+{
+	if(wooduino_font_loaded)
+	{
+		int char_width = 3;
+		int char_length = 3;
+		
+		char three_line_chars[10][9] = { 
+      { 0x07, 0xFF, 0x01, 0xFF, 0x20, 0xFF, 0x02, 0xFF, 0x04 }, // 0
+      { 0x07, 0xFF, 0x20, 0x20, 0xFF, 0x20, 0xFF, 0xFF, 0xFF }, // 1
+      { 0x00, 0x00, 0x01, 0x07, 0x00, 0x00, 0xFF, 0xFF, 0xFF }, // 2
+      { 0x00, 0x00, 0x01, 0x20, 0x00, 0xFF, 0xFF, 0xFF, 0x04 }, // 3
+      { 0xFF, 0x10, 0xFF, 0x02, 0xFF, 0xFF, 0x20, 0x20, 0xFF }, // 4
+      { 0xFF, 0x00, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0x04 }, // 5
+      { 0x07, 0x00, 0x00, 0xFF, 0x00, 0x01, 0x02, 0xFF, 0x04 }, // 6
+      { 0x00, 0x00, 0x01, 0x20, 0x07, 0x04, 0x07, 0x04, 0x20 }, // 7
+      { 0x02, 0x00, 0x04, 0x07, 0x00, 0x01, 0x02, 0x03, 0x04 }, // 8
+      { 0x07, 0x00, 0x01, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x04 }, // 9  
+		};
+		
+		if( line>char_length-2 && line<4 && pos<21-char_width )
+		{
+			for(int rows=0; rows<char_length; rows++)
+			{
+				for(int cols=0;cols<char_width;cols++)
+				{
+					lcd_set_position(line-char_length+1,pos);
+					lcd_write_data(three_line_chars[ch][rows*char_width+cols]);
+					pos+=1;
+				}
+				line += 1;
+				pos-=char_width;
+			}
+		}
+		lcd_set_position(line-char_length+1,pos+char_width);
 	}
 }
 
