@@ -37,7 +37,6 @@ int main(void)
 	
 	/* Initialize LCD display */
 	lcd_init();
-	lcd_send_cmd(CMD_CURSOR_BLINK);
 	
   /* USER CODE BEGIN 2 */
 	
@@ -64,6 +63,7 @@ int main(void)
 	
 	
 	lcd_load_wooduino_font();
+	start_clock(2,3,5,0);
 	
 	//lcd_write_woodoino_char(1, 2, 5);
 /*	
@@ -90,6 +90,7 @@ int main(void)
 	lcd_write_3line_char(8, 3, 12);
 	lcd_write_3line_char(9, 3, 16);
 */
+/*
 lcd_write_3line_char(1, 3, 1);
 lcd_write_3line_char(0, 3, 5);
 lcd_set_position(1,9);
@@ -100,7 +101,7 @@ lcd_set_position(3,9);
 lcd_write_data(0x00);
 lcd_write_3line_char(5, 3, 11);
 lcd_write_3line_char(8, 3, 15);
-	
+*/
 /*	lcd_write_woodoino_char(1,2,5);
 	lcd_write_woodoino_char(0,2,8);
 	lcd_set_position(1,11);
@@ -184,10 +185,13 @@ static void GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOD, LCD_RS_Pin|LCD_RW_Pin|LCD_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : LCD_IN_Pin */
-  GPIO_InitStruct.Pin = LCD_IN_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  /*Configure GPIO pin : PE4 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(LCD_IN_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+	
+	 
 
   /*Configure GPIO pins : LCD_OUT_Pin 
 													LCD_D0_Pin 
@@ -219,6 +223,11 @@ static void GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+	
+	/* EXTI interrupt init*/
+	HAL_NVIC_SetPriority(EXTI4_IRQn , 1, 0);
+	HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
 }
+
 
