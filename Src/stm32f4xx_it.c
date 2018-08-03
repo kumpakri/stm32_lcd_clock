@@ -35,6 +35,7 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 #include "LCD_demo.h"
+#include "LCD_lib.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -198,7 +199,55 @@ void SysTick_Handler(void)
 void EXTI4_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI4_IRQn 0 */
-	clock_ok = 0;
+	
+	if( HAL_GPIO_ReadPin(LCD_IN_GPIO_Port,  LCD_IN_Pin) )
+	{
+		//start timer
+		start_push = HAL_GetTick();
+		HAL_Delay(100);
+		to_be_served = 1;
+		
+	} else {
+		//stop timer
+		//evalate
+		uint32_t end_push = HAL_GetTick();
+		uint16_t elapsed = end_push - start_push;
+		//if short
+			if(to_be_served){
+			if( elapsed < 1000)
+			{
+				if(edit==0) {m1  += 1; }
+				if(edit==1) {m10 += 1; }
+				if(edit==2) {h1  += 1; }
+				if(edit==3) {h10 += 1; }
+				
+				if(m1>9) m1=0;
+				if(m10>5) m10=0;
+				if(h1>9) h1=0;
+				if(h10>2) h10=0;
+				
+				s1=0;
+				s10=0;
+			} else {
+				//if long
+				edit += 1;
+				if(edit>3) edit = 0;
+				
+				if(edit==0) { lcd_set_position(0,17); }
+				if(edit==1) { lcd_set_position(0,13); }
+				if(edit==2) { lcd_set_position(0,7); }
+				if(edit==3) { lcd_set_position(0,3); }
+				
+				lcd_write_data('*');
+				HAL_Delay(1000);
+				lcd_send_cmd(CMD_RETURN_HOME);
+				lcd_write_string("                    ",20);
+				
+			}
+			to_be_served = 0;
+		}
+	}
+	
 
   /* USER CODE END EXTI4_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);

@@ -11,8 +11,16 @@
 #include "stm32f4xx_hal.h"
 #include "LCD_lib.h"
 
-int clock_ok = 1;
+uint32_t h10 = 0;
+uint32_t h1 = 0;
+uint32_t m10 = 0;
+uint32_t m1 = 0; 
+uint32_t s10 = 0;
+uint32_t s1 = 0;
 
+uint32_t start_push = 0;
+uint32_t edit = 0;
+uint32_t to_be_served = 0;
 	
 void hello_world_demo(void)
 {
@@ -82,11 +90,14 @@ void four_line_demo(void)
 	lcd_send_cmd(CMD_DISPLAY_OFF);
 }
 
-void start_clock(int h10, int h1, int m10, int m1)
+void start_clock(uint32_t h10_s, uint32_t h1_s, uint32_t m10_s, uint32_t m1_s)
 {
 	
-	clock_ok = 1;
-	
+	h10 = h10_s;
+	h1 = h1_s;
+	m10 = m10_s;
+	m1 = m1_s;
+		
 	lcd_write_3line_char(h10, 3, 1);
 	lcd_write_3line_char(h1, 3, 5);
 	lcd_set_position(1,9);
@@ -97,21 +108,19 @@ void start_clock(int h10, int h1, int m10, int m1)
 	lcd_write_data(0x00);
 	lcd_write_3line_char(m10, 3, 11);
 	lcd_write_3line_char(m1, 3, 15);
+
 	
-	int s10 = 0;
-	int s1 = 0;
-	
-	while(clock_ok)
+	while(1)
 	{
 		HAL_Delay(535);
 		s1+=1;
 		
-		if(s1>9) { s10+=1; s1=0; }
-		if(s10>5) { m1+=1; s10 = 0; }
-		if(m1>9) { m10+=1; m1 = 0; }
-		if(m10>5) { h1+=1; m10 = 0; }
-		if(h1>9) { h10+=1; h1=0; }
-		if( h10==2 && h1 > 3 ) { h10=0; h1=0; }
+		if(s1>9)  { s10+=1; s1  = 0; }
+		if(s10>5) { m1 +=1; s10 = 0; }
+		if(m1>9)  { m10+=1; m1  = 0; }
+		if(m10>5) { h1 +=1; m10 = 0; }
+		if(h1>9)  { h10+=1; h1  = 0; }
+		if( h10==2 && h1 > 3) {h10=0; h1=0;}
 		
 		lcd_write_3line_char(h10, 3, 1);
 		lcd_write_3line_char(h1, 3, 5);

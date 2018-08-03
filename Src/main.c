@@ -63,7 +63,7 @@ int main(void)
 	
 	
 	lcd_load_wooduino_font();
-	start_clock(2,3,5,0);
+	start_clock(0,0,0,0);
 	
 	//lcd_write_woodoino_char(1, 2, 5);
 /*	
@@ -187,7 +187,7 @@ static void GPIO_Init(void)
   /*Configure GPIO pin : LCD_IN_Pin */
   /*Configure GPIO pin : PE4 */
   GPIO_InitStruct.Pin = GPIO_PIN_4;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 	

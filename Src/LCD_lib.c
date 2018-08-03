@@ -21,6 +21,7 @@ void lcd_init(void)
 	lcd_send_cmd(CMD_DISPLAY_ON);
 	lcd_send_cmd(CMD_SET_FOUR_LINES);
 	lcd_send_cmd(CMD_SET_CURSOR_RIGHT);
+	HAL_IncTick();
 }
 
 /**
